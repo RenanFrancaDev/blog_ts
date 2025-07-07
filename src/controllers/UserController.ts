@@ -23,7 +23,7 @@ export default {
 
       return res.json({
         error: false,
-        message: "Erro: registered user",
+        message: "registered user",
         user: user,
       });
     } catch (error) {
