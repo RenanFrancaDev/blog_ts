@@ -19,3 +19,10 @@ npm i @typescript-eslint/parser -D
 
 - Iniciar Eslint
   npx eslint --init
+
+\*TypeScript versão 4
+
+iniciar prisma:
+npx prisma init --datasource-provider MySql
+configura User
+rodar a migrate
