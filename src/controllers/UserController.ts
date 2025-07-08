@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import { prisma } from "../database";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../auth/jwt";
 
 export default {
   async createUser(req: Request, res: Response) {
@@ -54,6 +55,35 @@ export default {
         error: false,
         message: "Usuário registrado com sucesso",
         user: user,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: true,
+        message: "Erro interno no servidor",
+      });
+    }
+  },
+
+  async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+
+      const user = await prisma.user.findUnique({ where: { email } });
+
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const token = generateToken(user.id);
+
+      return res.json({
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
       });
     } catch (error) {
       console.error(error);

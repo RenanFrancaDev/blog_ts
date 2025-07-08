@@ -1,26 +1,26 @@
 import { Response, Request } from "express";
 import { prisma } from "../database";
 
+interface AuthRequest extends Request {
+  userId?: number;
+}
+
 export default {
-  async createPost(req: Request, res: Response) {
+  async createPost(req: AuthRequest, res: Response) {
     try {
-      const { title, content, userId } = req.body;
+      const { title, content } = req.body;
+      const userId = req.userId;
 
       // Validação básica
-      if (!title || !content || !userId) {
+      if (!title || !content) {
         return res.status(400).json({
           error: true,
           message: "Title, content and userId are required",
         });
       }
 
-      // Verifica se o usuário existe ANTES de criar o post
-      const userExists = await prisma.user.findUnique({
-        where: { id: Number(userId) },
-      });
-
-      if (!userExists) {
-        return res.status(404).json({
+      if (!userId) {
+        return res.status(401).json({
           error: true,
           message: "User not found",
         });
@@ -30,7 +30,7 @@ export default {
         data: {
           title,
           content,
-          userId: Number(userId),
+          userId,
         },
       });
 
