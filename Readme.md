@@ -26,3 +26,6 @@ iniciar prisma:
 npx prisma init --datasource-provider MySql
 configura User
 rodar a migrate
+
+- criar tabela dentro do banco de dados:
+  npx prisma migrate dev --name init

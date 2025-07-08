@@ -14,6 +14,18 @@ export default {
         });
       }
 
+      // Verifica se o usuário existe ANTES de criar o post
+      const userExists = await prisma.user.findUnique({
+        where: { id: Number(userId) },
+      });
+
+      if (!userExists) {
+        return res.status(404).json({
+          error: true,
+          message: "User not found",
+        });
+      }
+
       const post = await prisma.post.create({
         data: {
           title,
