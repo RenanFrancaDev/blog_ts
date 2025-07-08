@@ -11,5 +11,8 @@
     "moduleResolution": "node",
     "useUnknownInCatchVariables": false
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "src/@types/**/*.d.ts"
+  ]
 }

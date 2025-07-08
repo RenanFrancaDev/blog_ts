@@ -29,3 +29,6 @@ rodar a migrate
 
 - criar tabela dentro do banco de dados:
   npx prisma migrate dev --name init
+
+- Instalação JWT Token
+  npm install jsonwebtoken bcryptjs @types/jsonwebtoken @types/bcryptjs --save

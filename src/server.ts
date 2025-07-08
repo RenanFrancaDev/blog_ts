@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import UserController from "./controllers/UserController";
 import PostController from "./controllers/PostController";
+import { authMiddleware } from "./auth/middleware";
 
 const app = express();
 
@@ -11,7 +12,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/createUser", UserController.createUser);
-app.post("/createPost", PostController.createPost);
+app.post("/login", UserController.login);
+app.post("/createPost", authMiddleware, PostController.createPost);
+app.get("/post", authMiddleware, PostController.createPost);
 
 const PORT = 8000;
 
