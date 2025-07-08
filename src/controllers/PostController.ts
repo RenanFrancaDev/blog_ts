@@ -45,4 +45,32 @@ export default {
       });
     }
   },
+
+  async getPost(req: Request, res: Response) {
+    try {
+      const posts = await prisma.post.findMany({
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          userId: true,
+          // createdAt: true,
+          // updatedAt: true,
+        },
+        // orderBy: {
+        //   createdAt: "desc",
+        // },
+      });
+
+      return res.status(200).json(posts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      return res.status(500).json({
+        error: true,
+        message: "Internal server error",
+        details:
+          process.env.NODE_ENV === "development" ? error.message : undefined,
+      });
+    }
+  },
 };

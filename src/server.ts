@@ -14,7 +14,7 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/createUser", UserController.createUser);
 app.post("/login", UserController.login);
 app.post("/createPost", authMiddleware, PostController.createPost);
-app.post("/post", authMiddleware, PostController.createPost);
+app.get("/post", authMiddleware, PostController.createPost);
 
 const PORT = 8000;
 
